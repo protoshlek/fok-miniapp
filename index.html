@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Событие — РЦС Президентский</title>
+<script src="https://st.max.ru/js/max-web-app.js"></script>
+<script src="config.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <header class="hdr">
+    <button id="back" class="icon-btn" aria-label="Назад">‹</button>
+    <h1 id="hdr-title">Дозаполнить событие</h1>
+  </header>
+
+  <div id="banner" class="banner hidden"></div>
+
+  <main>
+    <section class="card" id="s-source">
+      <div class="card-h">Из сообщения в MAX</div>
+      <blockquote id="src-text" class="src-text">—</blockquote>
+      <div class="src-meta" id="src-meta"></div>
+    </section>
+
+    <form id="form" novalidate>
+      <section class="card">
+        <label class="lbl" for="f-time">Время события <span class="req">*</span></label>
+        <input type="time" id="f-time" name="event_time" required>
+
+        <label class="lbl" for="f-room">Помещение <span class="req">*</span></label>
+        <input type="text" id="f-room" name="room" autocomplete="off"
+               placeholder="Начните вводить номер или название">
+        <div id="room-hints" class="hints hidden"></div>
+        <div id="room-picked" class="picked hidden"></div>
+
+        <label class="lbl" for="f-kind">Вид работ</label>
+        <select id="f-kind" name="work_kind">
+          <option value="">— не выбрано —</option>
+          <option>уборка</option><option>ремонт</option><option>протечка</option>
+          <option>замена</option><option>проверка</option><option>снабжение</option>
+          <option>монтаж</option><option>покраска</option><option>электрика</option>
+          <option>сантехника</option><option>вентиляция</option>
+          <option>кондиционер</option><option>доставка</option><option>вынос</option>
+          <option>подготовка</option>
+        </select>
+
+        <label class="lbl" for="f-desc">Описание <span class="req">*</span></label>
+        <textarea id="f-desc" name="description" rows="4" required
+                  placeholder="Что нужно сделать"></textarea>
+      </section>
+
+      <section class="card">
+        <div class="card-h">Фото из чата</div>
+        <div id="photos" class="photos"></div>
+      </section>
+
+      <button type="submit" id="submit" class="primary">Сохранить</button>
+      <div id="status" class="status"></div>
+    </form>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
