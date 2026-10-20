@@ -157,6 +157,7 @@
       room_number: state.room ? state.room.number : $("f-room").value.trim(),
       room_label: state.room ? state.room.label : null,
       work_kind: $("f-kind").value || null,
+      executor: $("f-exec").value.trim() || null,
       description: $("f-desc").value.trim()
     };
     if (!payload.event_time || !payload.room_number || !payload.description) {
@@ -167,7 +168,12 @@
     var path = state.eventId ? "/api/event/" + state.eventId + "/fill" : "/api/event/new";
     api(path, payload)
       .then(function (j) {
-        status("Сохранено: " + (j.row_id || "строка создана"), "ok");
+        var sync = j.sync || {};
+        if (sync.action === "created") status("Строка создана в AppFlowy", "ok");
+        else if (sync.action === "updated") status("Строка обновлена в AppFlowy", "ok");
+        else if (sync.reason === "incomplete") status("Сохранено, но не хватает: " + (j.missing || []).join(", "), "err");
+        else if (sync.action === "skipped") status("Сохранено. AppFlowy: " + (sync.reason || "—"), "err");
+        else status("AppFlowy: " + (sync.error || sync.reason || "неизвестно"), "err");
         if (tg.MainButton) tg.MainButton.hide();
         setTimeout(function () { window.close(); }, 900);
       })
